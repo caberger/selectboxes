@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    align-content: center;
+}
+#item-selector {
+    max-width: 800px;
+    margin: auto;
+}
+#buttons {
+    justify-content: center;
+    margin: 1em;
+    padding: 1.5em;
+}
+.select-box {
+    /* offset-x | offset-y | blur-radius | color */
+    box-shadow: 10px 5px 5px black;
+    flex-grow: 1;
+    padding: 0.5em;
+    text-align: left;
+    border: 1px solid lightgrey;
+    max-width: 12em;
+}
+body {
+    font-family: 'Ubuntu', serif;
+}
+.selectable-element {
+    cursor: pointer;
+}
+.selectable-element:hover {
+    background-color: lightgray;
+}
