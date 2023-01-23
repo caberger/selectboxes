@@ -38,7 +38,7 @@ class SelectBox extends HTMLElement {
         users.forEach(user => {
             const div = document.createElement("div")
             div.classList.add("selectable-element")
-            div.innerHTML = `${user.firstName} ${user.lastName}`
+            div.innerHTML = `<span class="light">${user.firstName}</span> ${user.lastName}`
             div.onclick = (e: Event) => {
                 this.userSelected(user)
             }

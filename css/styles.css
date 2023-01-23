@@ -1,3 +1,13 @@
+/* ubuntu-regular - latin */
+@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+         url('../fonts/ubuntu-v20-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/ubuntu-v20-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 .container {
     display: flex;
     align-content: center;
@@ -19,6 +29,9 @@
     text-align: left;
     border: 1px solid lightgrey;
     max-width: 12em;
+}
+.light {
+    color: grey;
 }
 body {
     font-family: 'Ubuntu', serif;
