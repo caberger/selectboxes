@@ -35,12 +35,12 @@ class SelectBox extends HTMLElement {
         this.attachShadow({mode: "open"})
     }
     connectedCallback() {
-        store.pipe(
-            map(model => this.type == AVAILABLE ? model.availableUsers : model.selectedUsers),
-            distinctUntilChanged()
-        ).subscribe(users => {
-            this.render(users)
-        })        
+        store
+            .pipe(
+                map(model => this.type == AVAILABLE ? model.availableUsers : model.selectedUsers),
+                distinctUntilChanged()
+            )
+            .subscribe(users => this.render(users))        
     }
     private render(allUsers: User[]) {
         const users = [...allUsers].sort((l, r) => l.lastName.localeCompare(r.lastName))
