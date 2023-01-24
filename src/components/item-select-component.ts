@@ -1,6 +1,4 @@
 import { html, render } from "lit-html"
-import { distinctUntilChanged, map } from "rxjs"
-import store from "../model/store"
 import "./select-box"
 
 const template = html`
@@ -10,12 +8,6 @@ const template = html`
     <div class="container">
         <select-box class="select-box" id="available" type="available">
         </select-box>
-        <!-- too long for the available time in the exam
-        <div>
-            <div id="buttons"><button>&gt;&gt;</button></div>
-            <div id="buttons"><button>&lt;&lt;</button></div>
-        </div>
-        -->
         <div id="buttons">&nbsp;</div>
         <select-box class="select-box" id="selected" type="selected">
         </select-box>
@@ -28,12 +20,7 @@ class ItemSelectComponent extends HTMLElement {
         this.attachShadow({mode: "open"})
     }
     connectedCallback() {
-        store.pipe(
-            map(model => model.availableUsers),
-            distinctUntilChanged()
-        ).subscribe(users => {
-            render(template, this.shadowRoot)
-        })
+       render(template, this.shadowRoot)
     }
 }
 customElements.define("item-select", ItemSelectComponent)
