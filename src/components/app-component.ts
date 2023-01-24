@@ -15,7 +15,6 @@ class AppComponent extends HTMLElement {
     constructor() {
         super()
         this.attachShadow({mode: "open"})
-        
     }
     async connectedCallback() {
         const users = await userService.getAll()

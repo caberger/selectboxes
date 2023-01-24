@@ -32,12 +32,8 @@ class ItemSelectComponent extends HTMLElement {
             map(model => model.availableUsers),
             distinctUntilChanged()
         ).subscribe(users => {
-            console.log("users loaded", users)
+            render(template, this.shadowRoot)
         })
-        this.render()
-    }
-    private render() {
-        render(template, this.shadowRoot)
     }
 }
 customElements.define("item-select", ItemSelectComponent)

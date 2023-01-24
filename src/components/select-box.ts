@@ -13,7 +13,6 @@ const AVAILABLE = "available"
 const TYPE_ATTRIBUTE_NAME = "type"
 
 function userSelected(selectedUser: User) {
-    console.log("user selected", selectedUser)
     const model = produce(store.getValue(), draft => {
         const remainInAvailable = draft.availableUsers.filter(user => user.id != selectedUser.id)
         const remainInSelected = draft.selectedUsers.filter(user => user.id != selectedUser.id)
@@ -62,7 +61,7 @@ class SelectBox extends HTMLElement {
                 this.type = value
                 break
             default:
-                console.log(`unknown attribute ${name} changed to ${value}`)
+                console.error(`unknown attribute ${name} changed to ${value}`)
                 break
         }
     }
