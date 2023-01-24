@@ -7,6 +7,7 @@ const path = require('path')
 const copyWebpackPlugin = new CopyWebpackPlugin({
   patterns: [
     {from: "css/**"},
+    {from: "fonts/**"}
   ]
 })
 
