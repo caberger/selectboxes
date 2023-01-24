@@ -16,11 +16,8 @@ function userSelected(selectedUser: User) {
     const model = produce(store.getValue(), draft => {
         const remainInAvailable = draft.availableUsers.filter(user => user.id != selectedUser.id)
         const remainInSelected = draft.selectedUsers.filter(user => user.id != selectedUser.id)
-        if (remainInAvailable.length == draft.availableUsers.length) {
-            remainInAvailable.push(selectedUser)
-        } else {
-            remainInSelected.push(selectedUser)
-        }
+        const users = remainInAvailable.length == draft.availableUsers.length ? remainInAvailable : remainInSelected
+        users.push(selectedUser)
         draft.availableUsers = remainInAvailable
         draft.selectedUsers = remainInSelected
     })
