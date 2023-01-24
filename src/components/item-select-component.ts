@@ -2,9 +2,8 @@ import { html, render } from "lit-html"
 import "./select-box"
 
 const template = html`
-<div id="item-selector">
 <link rel="stylesheet" href="./css/styles.css" />
-
+<div id="item-selector">
     <div class="container">
         <select-box class="select-box" id="available" type="available">
         </select-box>
