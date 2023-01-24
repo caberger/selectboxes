@@ -1,22 +1,38 @@
 import produce from "immer"
+import { html, render } from "lit-html"
 import { distinctUntilChanged, map } from "rxjs"
 import store from "../model/store"
 import { User } from "../user/user"
 
-/*
 const userTemplate = (user: User) => html`
-    <div class="selectable-element">${user.firstName} ${user.lastName}</div>
+    <div @click=${() => userSelected(user)} class="selectable-element">
+        <span class="light">${user.firstName}</span> ${user.lastName}
+    </div>
 `
-*/
-const style = '<link rel="stylesheet" href="./css/styles.css" />'
-
 const AVAILABLE = "available"
+const TYPE_ATTRIBUTE_NAME = "type"
+
+function userSelected(selectedUser: User) {
+    console.log("user selected", selectedUser)
+    const model = produce(store.getValue(), draft => {
+        const remainInAvailable = draft.availableUsers.filter(user => user.id != selectedUser.id)
+        const remainInSelected = draft.selectedUsers.filter(user => user.id != selectedUser.id)
+        if (remainInAvailable.length == draft.availableUsers.length) {
+            remainInAvailable.push(selectedUser)
+        } else {
+            remainInSelected.push(selectedUser)
+        }
+        draft.availableUsers = remainInAvailable
+        draft.selectedUsers = remainInSelected
+    })
+    store.next(model)
+}
 
 class SelectBox extends HTMLElement {
     private type: string = AVAILABLE
 
     static get observedAttributes() {
-        return ["type"]
+        return [TYPE_ATTRIBUTE_NAME]
     }
     constructor() {
         super()
@@ -32,41 +48,22 @@ class SelectBox extends HTMLElement {
     }
     private render(allUsers: User[]) {
         const users = [...allUsers].sort((l, r) => l.lastName.localeCompare(r.lastName))
-        console.log("render", users)
 
-        this.shadowRoot.innerHTML = style
-        users.forEach(user => {
-            const div = document.createElement("div")
-            div.classList.add("selectable-element")
-            div.innerHTML = `<span class="light">${user.firstName}</span> ${user.lastName}`
-            div.onclick = (e: Event) => {
-                this.userSelected(user)
-            }
-            this.shadowRoot.appendChild(div)
-        })
-    }
-    private userSelected(selectedUser: User) {
-        const model = produce(store.getValue(), draft => {
-            const remainInAvailable = draft.availableUsers.filter(user => user.id != selectedUser.id)
-            const remainInSelected = draft.selectedUsers.filter(user => user.id != selectedUser.id)
-            if (remainInAvailable.length == draft.availableUsers.length) {
-                remainInAvailable.push(selectedUser)
-            } else {
-                remainInSelected.push(selectedUser)
-            }
-            draft.availableUsers = remainInAvailable
-            draft.selectedUsers = remainInSelected
-        })
-        store.next(model)
+        const userTemplates = users.map(user => userTemplate(user))
+        const template = html`
+            <link rel="stylesheet" href="./css/styles.css"/>
+            ${userTemplates}
+        `
+        render(template, this.shadowRoot)
     }
     attributeChangedCallback(name: string, _old: string, value: string) {
         switch(name) {
-            case "type":
+            case TYPE_ATTRIBUTE_NAME:
                 this.type = value
                 break
             default:
                 console.log(`unknown attribute ${name} changed to ${value}`)
-                break;
+                break
         }
     }
 }
